@@ -168,8 +168,8 @@ namespace SchematicExplorer
 
                 Brush randomColor = brushes[rand.Next() % brushes.Count];
 
+                string lastPathData = String.Empty;
                 Dictionary<string, string> combinedPaths = new Dictionary<string, string>();
-
                 foreach (XmlElement groupNodeChildElement in childElement.ChildNodes.OfType<XmlElement>())
                 {
                     if (String.Equals(groupNodeChildElement.Name, "desc", StringComparison.Ordinal))
@@ -207,27 +207,35 @@ namespace SchematicExplorer
                     {
                         string style = groupNodeChildElement.GetAttribute("style");
                         string pathData = groupNodeChildElement.GetAttribute("d");
-                        string combinedPath;
-                        if (!combinedPaths.TryGetValue(style, out combinedPath))
+                        // The generated schematic sometimes contains duplicate connection markers listed directly
+                        // after each other. When we combine the path elements together, the overlapping areas
+                        // cancel out, causing these markers to become invisible. We strip the duplicate markers
+                        // here to resolve the issue.
+                        if (!String.Equals(pathData, lastPathData, StringComparison.Ordinal))
                         {
-                            combinedPaths.Add(style, pathData);
-                        }
-                        else
-                        {
-                            if ((combinedPath.Length > 0) && (pathData.StartsWith("m ")))
+                            lastPathData = pathData;
+                            string combinedPath;
+                            if (!combinedPaths.TryGetValue(style, out combinedPath))
                             {
-                                var pathDataSplit = pathData.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                                if (!pathDataSplit[1].Contains(','))
-                                {
-                                    pathData = " M " + pathDataSplit[1] + " " + pathDataSplit[2] + " m 0 0 " + String.Join(" ", pathDataSplit.Skip(3));
-                                }
-                                else
-                                {
-                                    pathData = " M " + pathDataSplit[1] + " m 0 0 " + String.Join(" ", pathDataSplit.Skip(2));
-                                }
+                                combinedPaths.Add(style, pathData);
                             }
-                            combinedPath += pathData;
-                            combinedPaths[style] = combinedPath;
+                            else
+                            {
+                                if ((combinedPath.Length > 0) && (pathData.StartsWith("m ")))
+                                {
+                                    var pathDataSplit = pathData.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                    if (!pathDataSplit[1].Contains(','))
+                                    {
+                                        pathData = " M " + pathDataSplit[1] + " " + pathDataSplit[2] + " m 0 0 " + String.Join(" ", pathDataSplit.Skip(3));
+                                    }
+                                    else
+                                    {
+                                        pathData = " M " + pathDataSplit[1] + " m 0 0 " + String.Join(" ", pathDataSplit.Skip(2));
+                                    }
+                                }
+                                combinedPath += pathData;
+                                combinedPaths[style] = combinedPath;
+                            }
                         }
                     }
                     else
