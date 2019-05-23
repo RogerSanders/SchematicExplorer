@@ -33,7 +33,7 @@
                             <Grid>
                                 <Rectangle IsHitTestVisible="{Binding IsCtrlPressed, ElementName=SchematicView}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Color}" Stroke="{Binding StrokeColor}" StrokeThickness="{Binding AnnotationStrokeThickness, ElementName=SchematicView}" />
                                 <Viewbox IsHitTestVisible="False" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <TextBlock IsHitTestVisible="False" Text="{Binding Name}">
+                                    <TextBlock IsHitTestVisible="False" Text="{Binding Name}" TextAlignment="Center">
                                         <TextBlock.Foreground>
                                             <SolidColorBrush Color="Black" Opacity="0.75" />
                                         </TextBlock.Foreground>
