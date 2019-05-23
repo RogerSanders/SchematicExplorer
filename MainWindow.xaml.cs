@@ -263,6 +263,8 @@ namespace SchematicExplorer
                 rectangleElement.RectangleControl = rectangleControl;
                 Canvas.SetLeft(rectangleControl, rectangleElement.PosX);
                 Canvas.SetTop(rectangleControl, rectangleElement.PosY);
+                rectangleControl.Fill = rectangleElement.Fill;
+                rectangleControl.Stroke = rectangleElement.Stroke;
 
                 rectangleElement.RectangleControl.SetBinding(Shape.StrokeThicknessProperty, new Binding(nameof(StrokeThickness)) { Source = this });
                 rectangleControl.MouseLeftButtonDown += (sender, e) => HandleElementLocked(element);
