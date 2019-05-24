@@ -609,8 +609,13 @@ namespace SchematicExplorer
             if (_drawingAnnotation)
             {
                 _drawingAnnotation = false;
-                HandleAnnotationElementSelected(null);
                 Map.ReleaseMouseCapture();
+                AnnotationElement drawnAnnotation = Annotations.LastOrDefault();
+                if ((drawnAnnotation != null) && (drawnAnnotation.Width == 0) && (drawnAnnotation.Height == 0))
+                {
+                    HandleAnnotationElementSelected(null);
+                    Annotations.Remove(drawnAnnotation);
+                }
                 return;
             }
 
