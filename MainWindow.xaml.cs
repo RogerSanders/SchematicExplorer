@@ -252,9 +252,9 @@ namespace SchematicExplorer
         {
             // Define the content for our tooltip
             StackPanel tooltipStackPanel = new StackPanel();
-            Label countryNameLabel = new Label() { HorizontalAlignment = HorizontalAlignment.Center };
-            countryNameLabel.SetBinding(Label.ContentProperty, new Binding(nameof(element.Description)) { Source = element });
-            tooltipStackPanel.Children.Add(countryNameLabel);
+            TextBlock toolTipText = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center };
+            toolTipText.SetBinding(TextBlock.TextProperty, new Binding(nameof(element.Description)) { Source = element });
+            tooltipStackPanel.Children.Add(toolTipText);
             element.ToolTipContent = tooltipStackPanel;
 
             foreach (RectangleElement rectangleElement in element.RectangleElements)
