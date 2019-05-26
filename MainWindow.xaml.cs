@@ -591,6 +591,7 @@ namespace SchematicExplorer
             {
                 _drawingAnnotation = true;
                 AnnotationElement annotationElement = new AnnotationElement();
+                annotationElement.Layer = (IsOverlayEnabled0 ? 0 : (IsOverlayEnabled1 ? 1 : 2));
                 Annotations.Add(annotationElement);
                 AddAnnotationElementToDisplay(annotationElement);
                 HandleAnnotationElementSelected(annotationElement);
