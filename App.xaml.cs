@@ -190,7 +190,7 @@ namespace SchematicExplorer
                         }
                         if (style.Contains("fill:"))
                         {
-                            rectangleElement.Fill = Brushes.Black;
+                            rectangleElement.Fill = randomColor;
                         }
                         element.RectangleElements.Add(rectangleElement);
                     }
